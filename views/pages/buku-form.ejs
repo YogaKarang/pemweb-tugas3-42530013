@@ -1,0 +1,61 @@
+<%- include('../partials/header', { pageTitle: pageTitle }) %>
+
+<div class="card narrow">
+  <h1><%= judulForm %></h1>
+  <p class="muted lead">Isi data buku dengan lengkap. Kolom bertanda <span class="req">*</span> wajib diisi.</p>
+
+  <% if (errors.length) { %>
+    <div class="alert">
+      <strong>Periksa kembali isian Anda:</strong>
+      <ul><% errors.forEach(e => { %><li><%= e %></li><% }) %></ul>
+    </div>
+  <% } %>
+
+  <form action="<%= action %>" method="POST">
+    <label for="judul">Judul <span class="req">*</span></label>
+    <input type="text" id="judul" name="judul" maxlength="150" required value="<%= buku.judul || '' %>">
+
+    <label for="penulis">Penulis <span class="req">*</span></label>
+    <input type="text" id="penulis" name="penulis" maxlength="100" required value="<%= buku.penulis || '' %>">
+
+    <label for="genre">Genre <span class="req">*</span></label>
+    <select id="genre" name="genre" required>
+      <option value="">-- Pilih Genre --</option>
+      <% genreList.forEach(g => { %>
+        <option value="<%= g %>" <%= buku.genre === g ? 'selected' : '' %>><%= g %></option>
+      <% }) %>
+    </select>
+
+    <div class="row">
+      <div>
+        <label for="tahun_terbit">Tahun Terbit <span class="req">*</span></label>
+        <input type="number" id="tahun_terbit" name="tahun_terbit" min="1000" required value="<%= buku.tahun_terbit %>">
+      </div>
+      <div>
+        <label for="jumlah_eksemplar">Jumlah Eksemplar <span class="req">*</span></label>
+        <input type="number" id="jumlah_eksemplar" name="jumlah_eksemplar" min="0" required value="<%= buku.jumlah_eksemplar %>">
+      </div>
+    </div>
+
+    <label for="harga_ganti">Harga Ganti (Rp) <span class="req">*</span></label>
+    <input type="number" id="harga_ganti" name="harga_ganti" min="0" step="500" required value="<%= buku.harga_ganti || '' %>">
+    <small class="hint">Biaya yang dikenakan bila buku hilang.</small>
+
+    <label for="tanggal_registrasi">Tanggal Registrasi <span class="req">*</span></label>
+    <input type="date" id="tanggal_registrasi" name="tanggal_registrasi" required value="<%= buku.tanggal_registrasi || '' %>">
+
+    <label for="foto">URL Foto Sampul</label>
+    <input type="text" id="foto" name="foto" maxlength="255" placeholder="https://contoh.com/sampul.jpg" value="<%= buku.foto || '' %>">
+    <small class="hint">Opsional. Tempel alamat gambar (diawali http:// atau https://). Kosongkan untuk memakai gambar pengganti.</small>
+
+    <label for="sinopsis">Sinopsis</label>
+    <textarea id="sinopsis" name="sinopsis" rows="4"><%= buku.sinopsis || '' %></textarea>
+
+    <div class="form-actions">
+      <button type="submit" class="btn"><%= tombol %></button>
+      <a href="/buku" class="link">Batal</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>
